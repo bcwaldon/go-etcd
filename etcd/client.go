@@ -153,6 +153,7 @@ func NewClientFromReader(reader io.Reader) (*Client, error) {
 func (c *Client) initHTTPClient() {
 	tr := &http.Transport{
 		Dial: dialTimeout,
+		ResponseHeaderTimeout: c.config.Timeout,
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
@@ -179,6 +180,7 @@ func (c *Client) initHTTPSClient(cert, key string) error {
 	tr := &http.Transport{
 		TLSClientConfig: tlsConfig,
 		Dial:            dialTimeout,
+		ResponseHeaderTimeout: c.config.Timeout,
 	}
 
 	c.httpClient = &http.Client{Transport: tr}
